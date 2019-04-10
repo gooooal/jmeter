@@ -1,0 +1,21 @@
+version: '3'
+services:
+  jmeter-node01:
+    image: vinsdocker/jmmaster
+    container_name: jmeter-node01
+    tty: true
+    networks:
+        - automation
+    ports:
+        - "18080:80"
+#  jmeter-node02:
+#    image: vinsdocker/jmserver
+#    container_name: jmeter-node02
+#    tty: true
+#    networks:
+#      - automation
+#    ports:
+#        - "28080:80"
+networks:
+  automation:
+    external: "true"
