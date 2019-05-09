@@ -1,0 +1,15 @@
+version: '3'
+services:
+  nginx:
+    build: ./files
+    container_name: nginx
+    networks:
+        - automation
+    ports:
+        - "8080:80"
+    volumes:
+        - ./files/public:/usr/share/nginx/html
+
+networks:
+  automation:
+    external: "true"
