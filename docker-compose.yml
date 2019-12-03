@@ -1,7 +1,6 @@
 version: '3.3'
 services:
   nginx:
-    #build: ./nginx/files
     environment:
       TZ: Asia/Tokyo
     image: nginx
@@ -14,7 +13,7 @@ services:
         - /var/log/docker/nginx/:/var/log/nginx/
 
   jenkins:
-    image: jenkins
+    image: jenkins/jenkins:lts
     container_name: jenkins
     ports:
       - '9080:8080'
