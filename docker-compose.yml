@@ -1,46 +1,28 @@
-version: '3.3'
+version: '3'
 services:
-  nginx:
-    environment:
-      TZ: Asia/Tokyo
-    image: nginx
-    container_name: nginx
+  jmeter-node01:
+    image: vinsdocker/jmmaster
+    container_name: jmeter-node01
+    tty: true
+    networks:
+        - automation
     ports:
-      - "8080:80"
+        - "18080:80"
     volumes:
-      - ./nginx/files/public:/usr/share/nginx/html
-      - ./nginx/files/config/default.conf:/etc/nginx/conf.d/default.conf
-      - /var/log/docker/nginx/:/var/log/nginx/
-    networks:
-      - web-nw
-
-  jenkins-master:
-    environment:
-      TZ: Asia/Tokyo
-    image: jenkins/jenkins:lts
-    container_name: jenkins-master
-    ports:
-      - '9080:8080'
-      - '5000:5000'
-    volumes:
-      - /var/log/docker/jenkins/:/var/jenkins_home
-    networks:
-      - jenkins-nw
-
-  jenkins-slave001:
-    environment:
-      TZ: Asia/Tokyo
-      #- JENKINS_SLAVE_SSH_PUBKEY=ssh-rsa AAAAxxxxxxxxxxxxxxxx
-    image: jenkins/jenkins:lts
-    container_name: jenkins-slave001
-    networks:
-      - jenkins-nw
-      - web-nw
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+        - ./jmeter_scenario/50Thread-10access.jmx:/jmeter/apache-jmeter-3.3/bin/50Thread-10access.jmx
+    command: bash -c "jmeter -n -t /jmeter/apache-jmeter-3.3/bin/50Thread-10access.jmx"
+#  jmeter-node02:
+#    image: vinsdocker/jmserver
+#    container_name: jmeter-node02
+#    tty: true
+#    networks:
+#      - automation
+#    ports:
+#        - "28080:80"
+#    volumes:
+#         - ./jmeter_scenario/50Thread-10access.jmx:/jmeter/apache-jmeter-3.3/bin/50Thread-10access.jmx
+#    command: bash -c "jmeter -n -t /jmeter/apache-jmeter-3.3/bin/50Thread-10access.jmx"
 
 networks:
-  web-nw:
-    external: true
-  jenkins-nw:
-    external: true
+  automation:
+    external: "true"
