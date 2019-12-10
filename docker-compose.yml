@@ -36,6 +36,8 @@ services:
     networks:
       - jenkins-nw
       - web-nw
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
 
 networks:
   web-nw:
